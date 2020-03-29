@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>生成随机数字</title>
-    <link rel="stylesheet" href="../static/css/staticSite.css">
-    <script src="../static/js/GetRandomNo.js"></script>
-    <link rel="stylesheet" href="../static/css/GetRandomNo.css">
+    <style type="text/css" >
+        body{
+            background-image: url("../static/img/lw.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+
+        }
+        div{
+            padding-top: 60px ;
+        }
+        div form input{
+            background-color: beige;
+        }
+    </style>
+    <script type="text/javascript" >
+        function ran(digit) {
+            var result="";
+            for(i=0;i<digit;i++){
+                result=result+(Math.floor(Math.random()*10));
+            }
+            alert(result);
+        }
+    </script>
 </head>
 <body>
 <div align="center">
