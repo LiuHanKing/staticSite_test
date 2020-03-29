@@ -4,26 +4,10 @@
     <meta charset="UTF-8">
     <title>生成随机数字</title>
     <link rel="stylesheet" href="../static/css/staticSite.css">
-    <style type="text/css">
-        div{
-            padding-top: 60px ;
-        }
-        div form input{
-            background-color: beige;
-        }
-    </style>
+    <script src="../static/js/GetRandomNo.js"></script>
+    <link rel="stylesheet" href="../static/css/GetRandomNo.css">
 </head>
 <body>
-<script type="text/javascript">
-    function ran(digit) {
-        var result="";
-        for(i=0;i<digit;i++){
-            result=result+(Math.floor(Math.random()*10));
-        }
-        alert(result);
-    }
-
-</script>
 <div align="center">
     <p>请输入要生成随机数的位数:</p>
     <form name="form">
