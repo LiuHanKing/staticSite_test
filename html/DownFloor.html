@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>下楼梯</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+    <style>
+        *{margin:0;padding: 0;}
+        #div1{
+            width:300px;
+            height:500px;
+            border:1px solid;
+            margin: 20px auto;
+            position:relative;
+            background-image: linear-gradient(100deg, #b100ff 30%,#00b3ff 105%);
+            overflow: hidden;
+        }
+        .msk{
+            width:100%;
+            height:100%;
+            background-color: #000000;
+            opacity: 0.5;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        .stbtn{
+            width:100px;
+            height:40px;
+            border:1px solid;
+            background:coral;
+            position:absolute;
+            top:50%;
+            left:50%;
+            text-align: center;
+            margin-left:-50px;
+            margin-top: -30px;
+            padding-top:20px;
+            font-weight: bold;
+            cursor:pointer;
+        }
+        .lad{
+            width:80px;
+            height:10px;
+            border:1px solid;
+            background: #666666;;
+            position:absolute;
+            bottom:0;
+        }
+        .divs{
+            width:200px;
+            height:100px;
+            text-align: center;
+            background:hotpink;
+            color:lightslategray;
+            font-size: 50px;
+            font-weight:bold;
+            position:absolute;
+            top:0;
+            left:-200px;
+        }
+        .qiu{
+            width:20px;
+            height:20px;
+            border-radius: 50%;
+            background-image: linear-gradient(118deg, #fff 9%,#000 104%);
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <div id="div1"></div>
+</body>
+    <script>
+        window.onload= function(){
+           new Game(div1);
+        }
+        function Game(oParent){
+            this.oParent = oParent;
+            this.start();
+        }
+        Game.prototype.start = function(){   //开始游戏
+            this.msk = document.createElement('div');
+            this.stbtn = document.createElement('div');
+            this.msk.className = 'msk';
+            this.stbtn.className = 'stbtn';
+            this.stbtn.innerText = '开始游戏';
+            this.oParent.appendChild(this.msk);
+            this.oParent.appendChild(this.stbtn);
+            this.speed = 1;
+            this.speed2 = 1;
+            this.fen = 0;
+            this.timer2 = null;
+            this.ladArr = [];
+            this.sNumArr = [];
+            this.iNum = 0;
+            this.timer3 = null;
+            this.stbtnClick();
+        }
+        Game.prototype.stbtnClick = function(){
+            this.stbtn.onclick = function(){
+                this.oParent.removeChild(this.msk);
+                this.oParent.removeChild(this.stbtn);
+                this.createLadder();    //    ladder  梯子
+            }.bind(this);
+        }
+        Game.prototype.createLadder = function(){
+            this.timer = setInterval(function(){
+                this.lad = document.createElement('div');
+                this.lad.className = 'lad';
+                this.oParent.appendChild(this.lad);
+                this.ladArr.push(this.lad);
+                this.ladbind();
+            }.bind(this),1000);
+        }
+        Game.prototype.ladbind = function(){   //   遍历数组中的每一项
+            if(this.ladArr.length >= this.iNum ){
+                this.ladArr.forEach(function(i){
+                    this.ibox = i;
+                    this.l = this.oParent.offsetWidth-i.offsetWidth;
+                    this.sNum = Math.floor(Math.random()*this.l);
+                    if( this.sNumArr){
+                        this.sNumArr.push(this.sNum);
+                        this.sNumArr.length = 1;
+                    }
+                    i.style.left = this.sNum + 'px';
+                    this.right = this.oParent.offsetWidth-i.offsetLeft-i.offsetWidth;
+                    this.topbind();
+                }.bind(this));
+            }
+            this.ladArr.length = this.iNum;
+            if( this.sNumArr){
+                this.createQiu();
+                this.pz();           //   小球
+                this.sNumArr = null;
+            }
+        }
+        Game.prototype.topbind = function(){
+            if(this.ladArr.length >= this.iNum ){
+                this.ladArr.forEach(function(i){
+                        if(i.offsetTop > 0){
+                                this.lad.timer = null;
+                                this.lad.timer = setInterval(function(){
+                                i.style.top = i.offsetTop - this.speed + 'px';
+                                // this.pz();
+                                }.bind(this),10)
+                            
+                        }else{
+                            // console.log(i);
+                            console.log(1);
+                            clearInterval(this.lad.timer);
+                            this.oParent.removeChild(i);
+                        }
+                }.bind(this));
+            }
+            this.ladArr.length = this.iNum;
+            this.bindEvent();
+        }
+        Game.prototype.createQiu = function(){   //创建球
+            this.qiu = document.createElement('div');
+            this.qiu.className = 'qiu';
+            this.oParent.appendChild(this.qiu);
+            this.qiu.style.left = this.sNumArr[0] + 'px';
+            this.timer3 = setInterval(function(){
+                this.speed2++;
+                this.qiu.style.top =  this.speed2 + 'px';
+                this.pz();
+            }.bind(this),10)
+        }
+        Game.prototype.bindEvent = function(){
+            document.onkeydown= function(ev){
+                var ev = window.event || ev;
+                if( ev.keyCode == 37 ){
+                    clearInterval(this.timer2);
+                    this.timer2 = setInterval(function(){
+                        this.qiu.style.left = parseFloat(this.qiu.style.left) - 1  + 'px';
+                        if( parseFloat(this.qiu.style.left) <= 0 ){
+                            this.qiu.style.left = 0 + 'px';
+                        }
+                    }.bind(this),10)
+                }
+                if( ev.keyCode == 39){
+                    clearInterval(this.timer2);
+                    this.timer2 = setInterval(function(){
+                        this.qiu.style.left = parseFloat(this.qiu.style.left) + 1  + 'px';
+                        if( parseFloat(this.qiu.style.left) >= this.oParent.offsetWidth-this.qiu.offsetWidth ){
+                            this.qiu.style.left = this.oParent.offsetWidth-this.qiu.offsetWidth + 'px';
+                        }      
+                    }.bind(this),10)
+                }
+            }.bind(this);
+        }
+        Game.prototype.pz = function(){
+            // this.timer = setInterval(function(){
+                // console.log(this.qiu.offsetLeft + this.qiu.offsetWidth > this.lad.offsetLeft,this.qiu.offsetLeft <= this.lad.offsetLeft + this.lad.offsetWidth,this.qiu.offsetTop + this.qiu.offsetHeight == this.lad.offsetTop );
+                if( this.qiu.offsetLeft + this.qiu.offsetWidth > this.lad.offsetLeft && this.qiu.offsetLeft <= this.lad.offsetLeft + this.lad.offsetWidth && this.qiu.offsetTop + this.qiu.offsetHeight == this.lad.offsetTop || this.qiu.offsetTop + this.qiu.offsetHeight == this.lad.offsetTop -1 || this.qiu.offsetTop + this.qiu.offsetHeight == this.lad.offsetTop -2 ){
+                    clearInterval(this.timer3);
+                    this.lad.timer = setInterval(function(){
+                        this.qiu.style.top = this.lad.offsetTop - this.speed - this.qiu.offsetHeight + 'px';
+                        if(this.lad.offsetTop < 0){
+                            this.oParent.removeChild(this.lad);
+                            clearInterval(this.lad.timer);
+                        }
+                    }.bind(this),10)
+                    return ;
+                }else if( this.qiu.offsetLeft + this.qiu.offsetWidth <= this.lad.offsetLeft ){
+                    this.qiu.offsetTop++;
+                    this.qiu.style.top = this.qiu.offsetTop + 'px';
+                }
+        //    }.bind(this),10)
+        }
+    </script>
+</html>

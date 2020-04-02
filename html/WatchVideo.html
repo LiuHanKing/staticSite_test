@@ -12,14 +12,20 @@
             background-attachment: fixed;
 
         }
-        }
     </style>
 </head>
 <body>
+<!--
 <center>
     <embed src="../static/video/eclipse-help.mp4" width="700" height="450">
 </center>
-
+-->
+<div class="container">
+    <input style="display:none" type="text" id="showTime"/>
+    <video webkit-playsinline controls preload="auto" style="width:100%;" data-setup="{}">
+        <source src="../static/video/eclipse-help.mp4"  type='video/mp4'>
+    </video>
+</div>
 
 </body>
 </html>
