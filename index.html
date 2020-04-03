@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes">
 
-    <title>www.liuhanking.xyz</title>
+    <title>liuhanking</title>
+    <link rel="icon" href="./static/img/bitbug_favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./static/img/bitbug_favicon.ico" type="image/x-icon"/>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <style type="text/css" >
         body{
             background-image: url("static/img/lw.png");
@@ -64,17 +67,24 @@
             return fmt;
     }
     setInterval("document.getElementById('dateTime').innerHTML = (new Date()).format('yyyy-MM-dd hh:mm:ss');", 1000);
-</script>
 
+</script>
 </head>
 <body>
 <embed src="static/mp3/杨栋梁-拥有你的感觉.mp3" width="auto" height="32" hidden="true" autostart="true" loop="true" >
     <center>
         <h1>staticSite_test</h1>
-
+        <h2 id="dateTime"></h2>
+        <h3 style="margin-top:20px;color:black;font-family: Corbel">
+            <script>
+                document.write("IP地址："+returnCitySN["cip"]+"&nbsp&nbsp&nbsp&nbsp&nbsp;"+"所处城市："+returnCitySN["cname"]);
+            </script>
+        </h3>
     <hr>
             <url>
-				<li><span id="dateTime"></span></li>
+				<!--
+                <li></li>
+                -->
                 <li> <a href="html/GetRandomNo.html">生成随机数字</a> </li>
                 <li><a href="html/WatchVideo.html">视频帮助</a></li>
                 <li><a href="html/MusicEnjoyment.html">音乐欣赏</a></li>
